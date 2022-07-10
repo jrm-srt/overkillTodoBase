@@ -1,6 +1,6 @@
 import * as fromReducer from './reducer';
 import { State } from './reducer';
-import { loadTodosSuccess } from './actions';
+import { loadTodosSuccessAction } from './actions';
 
 describe('Reducer', () => {
   describe('unknown action', () => {
@@ -18,8 +18,8 @@ describe('Reducer', () => {
   describe('loadTodosSuccess action', () => {
     it('should retrieve all todos and update the state', () => {
       const { initialState } = fromReducer;
-      const newState: State = { todos: [{ title: 'aTitle', isClosed: false }] };
-      const action = loadTodosSuccess({
+      const newState: State = { todos: [{ id: 1, title: 'aTitle', isClosed: false }] };
+      const action = loadTodosSuccessAction({
         todos: [...newState.todos],
       });
 
