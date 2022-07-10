@@ -11,10 +11,13 @@ export const loadTodosSuccessAction = createAction(
 
 export const loadTodosFailedAction = createAction('[Todos] Load todos failed');
 
+
+
 // Change Todo state
 export const changeTodoStateAction = createAction(
   '[Todos] Change todo state',
-  props<{ todo: Todo }>());
+  props<{ todo: Todo }>()
+);
 
 export const changeTodoStateSuccessAction = createAction(
   '[Todos] Change todo state success',
@@ -22,3 +25,18 @@ export const changeTodoStateSuccessAction = createAction(
 );
 
 export const changeTodoStateFailedAction = createAction('[Todos] Change todo state failed');
+
+
+
+// Get Todo
+export const getTodoByIdAction = createAction(
+  '[Todos] Get Todo',
+  props<{ id: number}>()
+);
+
+export const getTodoByIdSuccessAction = createAction(
+  '[Todos] Get todo success',
+  props<{ todo: Todo }>()
+);
+
+export const getTodoByIdFailedAction = createAction('[Todos] Get todo failed');

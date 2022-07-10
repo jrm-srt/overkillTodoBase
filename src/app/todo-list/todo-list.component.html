@@ -6,12 +6,13 @@
         <mat-list-item *ngFor="let todo of todos$ | async">
           <h4 matLine>
             <mat-checkbox
+              [ngClass]="{'done': todo.isClosed}"
               [checked]="todo.isClosed"
-              (change)="changeTodoState(todo)"
-            ></mat-checkbox>
-            <label [ngClass]="{'done': todo.isClosed}">
+              (change)="changeTodoState(todo)">
               {{ todo.title }}
-            </label>
+            </mat-checkbox>
+
+            <mat-icon [routerLink]="['todos', todo.id]" color="primary">info</mat-icon>
           </h4>
         </mat-list-item>
       </mat-list>

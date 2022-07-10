@@ -18,6 +18,15 @@ export const selectTodosSortedByClosedDate = createSelector(
 );
 
 /**
+ * Get the selected TODO (for the "details" view).
+ * @returns the selected TODO.
+ */
+export const selectSelectedTodo = createSelector(
+  getState,
+  (state: State) => state.selectedTodo
+)
+
+/**
  * Sort Todos by closedDate.
  * - Open Todos will be first, sorted by ID.
  * - Then closed Todos, ordered by closedDate (meaning the last closed Todo will be at the end of the list).

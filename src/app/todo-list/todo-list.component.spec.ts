@@ -32,7 +32,10 @@ describe('TodoListComponent', () => {
           MatCard
         ),
       ],
-      imports: [MatRippleModule, FormsModule],
+      imports: [
+        MatRippleModule,
+        FormsModule
+      ],
       providers: [provideMockStore()],
     }).compileComponents();
   });
@@ -66,6 +69,7 @@ describe('TodoListComponent', () => {
     );
   });
 
+  // Step 2 tests: Change a TODO state
   it('should display todos sorted by closedDate', () => {
     const todoElements = fixture.debugElement.queryAll(By.css('mat-list mat-list-item'));
     expect(todoElements.length).toEqual(4);
@@ -89,21 +93,23 @@ describe('TodoListComponent', () => {
     expect(closedTodoElements[1].nativeElement.innerText).toContain('todo 1');
   });
 
-
-  // TODO: check "todo 2" checkBox and assert that it is displayed at the bottom of the list
+  // TODO: check "todo 2" checkBox and assert that it is displayed at the bottom of the list?
   // it('should move checked Todo at the bottom of the list', () => {
-  //   const todoElements = fixture.debugElement.queryAll(By.css('mat-list mat-list-item'));
-  //   expect(todoElements.length).toEqual(4);
-  //   expect(todoElements[0].query(By.css('h4')).nativeElement.innerText).toContain('todo 2');
-  //   expect(todoElements[1].query(By.css('h4')).nativeElement.innerText).toContain('todo 4');
-  //   expect(todoElements[2].query(By.css('h4')).nativeElement.innerText).toContain('todo 3');
-  //   expect(todoElements[3].query(By.css('h4')).nativeElement.innerText).toContain('todo 1');
+  // ...
+  // });
 
-  //   const todoCheckboxes: MockedComponent<MatCheckbox>[] =
-  //     todoElements.map(item => item.query(By.css('mat-checkbox'))).map(item => item.componentInstance);
-  //     expect(todoCheckboxes[0].checked).toBeFalse();
-  //     expect(todoCheckboxes[1].checked).toBeFalse();
-  //     expect(todoCheckboxes[2].checked).toBeTrue();
-  //     expect(todoCheckboxes[3].checked).toBeTrue();
+  // Step 3 tests: Detail a TODO
+  // Check icon + new URL when clicking ?
+  // it('should have clickable todos', () => {
+  //   const clickableElements = fixture.debugElement.queryAll(By.css('a'));
+  //   expect(clickableElements.length).toEqual(4);
+  //   expect(clickableElements[0].nativeElement.innerText).toContain('todo 2');
+  //   expect(clickableElements[0].nativeElement.getAttribute('routerLink')).toEqual('/api/todos/2');
+  //   expect(clickableElements[1].nativeElement.innerText).toContain('todo 4');
+  //   expect(clickableElements[0].nativeElement.getAttribute('routerLink')).toEqual('/api/todos/4');
+  //   expect(clickableElements[2].nativeElement.innerText).toContain('todo 3');
+  //   expect(clickableElements[0].nativeElement.getAttribute('routerLink')).toEqual('/api/todos/3');
+  //   expect(clickableElements[3].nativeElement.innerText).toContain('todo 1');
+  //   expect(clickableElements[0].nativeElement.getAttribute('routerLink')).toEqual('/api/todos/1');
   // });
 });

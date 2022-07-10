@@ -1,15 +1,17 @@
 import {Todo} from '../models/todo';
 import {createReducer, on} from '@ngrx/store';
-import { loadTodosSuccessAction, changeTodoStateSuccessAction } from './actions';
+import { loadTodosSuccessAction, changeTodoStateSuccessAction, getTodoByIdSuccessAction } from './actions';
 
 export const featureKey = 'todosStore';
 
 export interface State {
   todos: ReadonlyArray<Todo>;
+  selectedTodo?: Todo;
 }
 
 export const initialState: State = {
   todos: [],
+  selectedTodo: undefined
 };
 
 export const todosReducer = createReducer(
@@ -34,6 +36,15 @@ export const todosReducer = createReducer(
         ...state,
         todos: updatedTodos
       });
-    }),
+    }
+  ),
+  // Select TODO
+  on(
+    getTodoByIdSuccessAction,
+    (state, { todo }) => ({
+      ...state,
+      selectedTodo: todo
+    })
+  )
 );
 

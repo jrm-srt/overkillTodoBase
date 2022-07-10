@@ -1,0 +1,24 @@
+<div id="container" *ngIf="todo$ | async as todo">
+  <mat-card>
+    <!-- Title -->
+    <div class="titleContainer">
+      <mat-card-title class="title">
+        {{todo.title}}
+      </mat-card-title>
+      <mat-chip-list aria-label="Status" class="status">
+        <mat-chip selected [color]="todo.isClosed ? 'primary' : 'accent'">{{todo.isClosed ? 'done' : 'todo'}}</mat-chip>
+      </mat-chip-list>
+    </div>
+
+    <!-- Description -->
+    <mat-card-content>
+      {{todo.description}}
+    </mat-card-content>
+
+    <!-- Buttons -->
+    <mat-card-actions>
+      <button mat-raised-button color="basic" type="button" [routerLink]="['/']">Back to list</button>
+      <button mat-raised-button color="primary" type="button" (click)="changeState(todo)" [routerLink]="['/']">{{todo.isClosed ? 'Reopen' : 'Close'}}</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
