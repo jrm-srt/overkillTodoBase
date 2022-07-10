@@ -17,7 +17,7 @@ describe('Selectors', () => {
     expect(result).toEqual(initialState.todos);
   });
 
-  it('should select todos list sorted closedDate', () => {
+  it('should select todos list sorted by closedDate', () => {
     const sortedTodos: Todo[] = [
       {id: 2, title: 'todo2Title', isClosed: false},
       {id: 4, title: 'todo4Title', isClosed: false},

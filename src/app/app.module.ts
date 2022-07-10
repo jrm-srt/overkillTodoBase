@@ -37,7 +37,8 @@ import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
     MatCheckboxModule,
     FormsModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(MockTodoApi),
+    // Configure HTTPClient with InMemoryDb to return the updated item when calling PUT methods
+    HttpClientInMemoryWebApiModule.forRoot(MockTodoApi, {put204: false}),
     StoreModule.forRoot({todosStore: todosReducer}),
     EffectsModule.forRoot([Effects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })

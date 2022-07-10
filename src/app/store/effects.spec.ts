@@ -89,35 +89,4 @@ describe('Effects', () => {
       expect(effects.changeTodoStateEffect$).toBeObservable(expected);
     });
   });
-
-  describe('changeTodoStateSuccessEffect$', () => {
-    it('should dispatch loadTodosSuccessAction action when todoService.list returns a result', () => {
-      const mockedTodo: Todo = { id: 1, title: 'aTitle', isClosed: false };
-      const mockedTodos: Todo[] = [mockedTodo];
-      todoService.list.and.returnValue(of(mockedTodos));
-
-      actions = hot('-a-', {
-        a: changeTodoStateSuccessAction({ todo: mockedTodo }),
-      });
-      const expected = cold('-b-', {
-        b: loadTodosSuccessAction({ todos: mockedTodos }),
-      });
-
-      expect(effects.changeTodoStateSuccessEffect$).toBeObservable(expected);
-    });
-
-    it('should dispatch loadTodosFailedAction action when todoService.list fails', () => {
-      const mockedTodo: Todo = { id: 1, title: 'aTitle', isClosed: false };
-      todoService.list.and.returnValue(cold('#'));
-
-      actions = hot('-a-', {
-        a: changeTodoStateSuccessAction({ todo: mockedTodo }),
-      });
-      const expected = cold('-b-', {
-        b: loadTodosFailedAction(),
-      });
-
-      expect(effects.changeTodoStateSuccessEffect$).toBeObservable(expected);
-    });
-  });
 });

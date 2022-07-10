@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { loadTodosAction, loadTodosFailedAction, loadTodosSuccessAction, changeTodoStateAction, changeTodoStateSuccessAction, changeTodoStateFailedAction } from './actions';
-import { catchError, exhaustMap, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { TodoService } from '../services/todo.service';
 
 @Injectable()
@@ -25,18 +25,6 @@ export class Effects {
         this.todoService.update(action.todo).pipe(
           map((todo) => changeTodoStateSuccessAction({ todo })),
           catchError(() => [changeTodoStateFailedAction()])
-        )
-      )
-    )
-  );
-
-  changeTodoStateSuccessEffect$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(changeTodoStateSuccessAction),
-      mergeMap(() =>
-        this.todoService.list().pipe(
-          map((todos) => loadTodosSuccessAction({ todos })),
-          catchError(() => [loadTodosFailedAction()])
         )
       )
     )

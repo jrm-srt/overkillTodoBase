@@ -1,6 +1,6 @@
 import {Todo} from '../models/todo';
 import {createReducer, on} from '@ngrx/store';
-import {loadTodosSuccessAction} from './actions';
+import { loadTodosSuccessAction, changeTodoStateSuccessAction } from './actions';
 
 export const featureKey = 'todosStore';
 
@@ -21,4 +21,19 @@ export const todosReducer = createReducer(
       todos
     })
   ),
+  // Update store with the new value for the updated TODO without requesting back-end for complete TODO list
+  on(
+    changeTodoStateSuccessAction,
+    (state, { todo }) =>
+      {
+        const index = state.todos.findIndex(t => t.id === todo.id);
+        const updatedTodos = [...state.todos];
+        updatedTodos[index] = todo;
+
+        return ({
+        ...state,
+        todos: updatedTodos
+      });
+    }),
 );
+
