@@ -1,17 +1,19 @@
 import { of } from 'rxjs';
-import { selectSelectedTodo } from './../store/selectors';
+import { selectSelectedTodo } from '../store/selectors';
 import { FormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { MockComponents } from 'ng-mocks';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { State } from './../store/reducer';
+import { State } from '../store/reducer';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TodoDetailComponent } from './todo-detail.component';
 import { MatChip, MatChipList } from '@angular/material/chips';
 import { MatButton } from '@angular/material/button';
+
+import * as mocks from '../../../tests/spec/mocks/todo-detail-mocks';
 
 describe('TodoDetailComponent', () => {
   let component: TodoDetailComponent;
@@ -53,10 +55,7 @@ describe('TodoDetailComponent', () => {
     fixture = TestBed.createComponent(TodoDetailComponent);
     component = fixture.componentInstance;
 
-    mockTodoSelector = store.overrideSelector(
-      selectSelectedTodo,
-      { id: 1, title: 'todo 1', isClosed: false, description: 'any description' }
-    );
+    mockTodoSelector = store.overrideSelector(selectSelectedTodo, mocks.TodoDetailMocks.mockSelectedTodo);
 
     fixture.detectChanges();
   });

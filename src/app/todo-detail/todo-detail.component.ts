@@ -34,15 +34,19 @@ export class TodoDetailComponent implements OnInit {
   }
 
   changeState(todo: Todo): void {
-    let updatedClosed = !todo.isClosed;
-    let updatedTodo: Todo = {
+    const updatedClosed = !todo.isClosed;
+    const updatedTodo: Todo = {
       ...todo,
       isClosed: updatedClosed,
-      // If Todo is not closed, reset its closedDate attribute
-      closedDate: (updatedClosed) ? new Date() : undefined
+      // If Todo is not closed, reset its closingDate attribute
+      closingDate: (updatedClosed) ? new Date() : undefined
     };
     console.log(`Change state for '${updatedTodo.title}' from  ${todo.isClosed} to  ${updatedTodo.isClosed}`);
     this.store.dispatch(changeTodoStateAction({todo: updatedTodo}));
+
+    // Reload current page in order to take into account new status
+    // TODO: voir comment mieux gérer l'ID lors de la création de Todo
+    this.store.dispatch(getTodoByIdAction({id: todo.id!}));
   }
 
 }

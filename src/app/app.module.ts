@@ -12,7 +12,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StoreModule} from '@ngrx/store';
 import {todosReducer} from './store/reducer';
 import {environment} from '../environments/environment';
@@ -22,13 +22,16 @@ import {Effects} from './store/effects';
 import {HttpClientModule} from '@angular/common/http';
 import {MockTodoApi} from './services/mock-todo-api';
 import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
-import { TodoDetailComponent } from './todo-detail/todo-detail.component';
+import {TodoDetailComponent} from './todo-detail/todo-detail.component';
+import {TodoCreateComponent} from './todo-create/todo-create.component';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
-    TodoDetailComponent
+    TodoDetailComponent,
+    TodoCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -47,9 +50,12 @@ import { TodoDetailComponent } from './todo-detail/todo-detail.component';
     HttpClientInMemoryWebApiModule.forRoot(MockTodoApi, {put204: false}),
     StoreModule.forRoot({todosStore: todosReducer}),
     EffectsModule.forRoot([Effects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+    MatInputModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

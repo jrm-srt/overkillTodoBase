@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Todo} from '../models/todo';
 import {Store} from '@ngrx/store';
-import {selectTodosSortedByClosedDate} from '../store/selectors';
+import {selectTodosSortedByClosingDate} from '../store/selectors';
 import {changeTodoStateAction, loadTodosAction} from '../store/actions';
 
 @Component({
@@ -15,7 +15,7 @@ export class TodoListComponent implements OnInit {
   todos$: Observable<ReadonlyArray<Todo>>;
 
   constructor(private store: Store) {
-    this.todos$ = this.store.select(selectTodosSortedByClosedDate);
+    this.todos$ = this.store.select(selectTodosSortedByClosingDate);
   }
 
   ngOnInit(): void {
@@ -23,14 +23,14 @@ export class TodoListComponent implements OnInit {
   }
 
   changeTodoState(todo: Todo): void {
-    let updatedClosed = !todo.isClosed;
-    let updatedTodo: Todo = {
+    const updatedClosed = !todo.isClosed;
+    const updatedTodo: Todo = {
       ...todo,
       isClosed: updatedClosed,
-      // If Todo is not closed, reset its closedDate attribute
-      closedDate: (updatedClosed) ? new Date() : undefined
+      // If Todo is not closed, reset its closingDate attribute
+      closingDate: (updatedClosed) ? new Date() : undefined
     };
-    console.log(`Change state for '${updatedTodo.title}' from  ${todo.isClosed} to  ${updatedTodo.isClosed}`);
+    console.log(`Change state for '${updatedTodo.title}' from ${todo.isClosed} to ${updatedTodo.isClosed}`);
     this.store.dispatch(changeTodoStateAction({todo: updatedTodo}));
   }
 

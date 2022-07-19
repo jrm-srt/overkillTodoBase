@@ -5,17 +5,25 @@
       <mat-list>
         <mat-list-item *ngFor="let todo of todos$ | async">
           <h4 matLine>
+
+            <button mat-icon-button color="primary" [routerLink]="['todos', todo.id]">
+              <mat-icon>info</mat-icon>
+            </button>
             <mat-checkbox
               [ngClass]="{'done': todo.isClosed}"
               [checked]="todo.isClosed"
               (change)="changeTodoState(todo)">
               {{ todo.title }}
             </mat-checkbox>
-
-            <mat-icon [routerLink]="['todos', todo.id]" color="primary">info</mat-icon>
           </h4>
         </mat-list-item>
       </mat-list>
     </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-fab color="primary" [routerLink]="['new']">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-card-actions>
   </mat-card>
 </div>

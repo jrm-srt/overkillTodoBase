@@ -24,7 +24,7 @@ describe('TodoService', () => {
   });
 
   it('should list todos', (done: DoneFn) => {
-    const mockedTodoList: Todo[] = [{ id: 1, title: 'todoTitle', isClosed: true }];
+    const mockedTodoList: Todo[] = [{ id: 1, title: 'todoTitle', creationDate: new Date(), isClosed: true }];
 
     service
       .list()
@@ -43,8 +43,8 @@ describe('TodoService', () => {
   });
 
   it('should update todos', (done: DoneFn) => {
-    const closedDate: Date = new Date();
-    const updatedTodo: Todo = {id: 1, title: 'new todoTitle', isClosed: true, closedDate: closedDate};
+    const closingDate: Date = new Date();
+    const updatedTodo: Todo = {id: 1, title: 'new todoTitle', creationDate: new Date(), isClosed: true, closingDate};
 
     service
       .update(updatedTodo)
@@ -63,10 +63,10 @@ describe('TodoService', () => {
   });
 
   it('should retrieve a todo by its ID', (done: DoneFn) => {
-    const mockedTodo: Todo = { id: 1, title: 'todoTitle', isClosed: false, description:"any description" };
+    const mockedTodo: Todo = { id: 1, title: 'todoTitle', creationDate: new Date(), isClosed: false, description: 'any description' };
 
     service
-      .get(1)
+      .getById(1)
       .pipe(first())
       .subscribe((res: Todo) => {
         expect(res).toEqual(mockedTodo);
@@ -79,5 +79,25 @@ describe('TodoService', () => {
     expect(req.request.method).toEqual('GET');
 
     req.flush(mockedTodo);
+  });
+
+  it('should create a new todo', (done: DoneFn) => {
+    const closingDate: Date = new Date();
+    const todoToCreate: Todo = {id: 5, title: 'new todo title', creationDate: new Date(), isClosed: true, closingDate};
+
+    service
+      .create(todoToCreate)
+      .pipe(first())
+      .subscribe((res: Todo) => {
+        expect(res).toEqual(todoToCreate);
+        done();
+      }, done.fail);
+
+    const req = httpMock.expectOne(
+      (r) => r.url === `${environment.baseUrl}/api/todos`
+    );
+    expect(req.request.method).toEqual('POST');
+
+    req.flush(todoToCreate);
   });
 });

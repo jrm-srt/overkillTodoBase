@@ -1,0 +1,31 @@
+<mat-card id="container">
+  <mat-card-title>
+    New Todo...
+  </mat-card-title>
+
+  <mat-card-content>
+    <form [formGroup]="createForm">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>The task to perform</mat-label>
+        <input matInput placeholder="Ex. Take over the world" formControlName="title">
+        <mat-error *ngIf="title.hasError('required')">Title is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Optional description</mat-label>
+        <input matInput placeholder="Ex. Answer Pinky: 'The same thing we do every night...'"
+               formControlName="description">
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="basic" type="button" [routerLink]="['/']">
+      Back to list
+    </button>
+    <button mat-raised-button type="submit" color="primary" (click)="createTodo()"
+            [disabled]="createForm.pristine || createForm.invalid">
+      Add to list
+    </button>
+  </mat-card-actions>
+</mat-card>

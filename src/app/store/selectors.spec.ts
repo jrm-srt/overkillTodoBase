@@ -1,30 +1,17 @@
-import { Todo } from '../models/todo';
 import {State} from './reducer';
-import { selectTodos, selectTodosSortedByClosedDate } from './selectors';
+import {selectTodos, selectTodosSortedByClosingDate} from './selectors';
+import * as mocks from '../../../tests/spec/mocks/selectors-mocks';
 
 describe('Selectors', () => {
-  const initialState: State = {
-   todos: [
-    {id: 1, title: 'todo1Title', isClosed: true, closedDate: new Date('2022-06-02T10:00:00.000Z')},
-    {id: 2, title: 'todo2Title', isClosed: false},
-    {id: 3, title: 'todo3Title', isClosed: true, closedDate: new Date('2022-06-01T10:00:00.000Z')},
-    {id: 4, title: 'todo4Title', isClosed: false},
-   ]
-  };
+  const initialState: State = mocks.SelectorsMocks.mockInitialState;
 
   it('should select todos list', () => {
     const result = selectTodos.projector(initialState);
     expect(result).toEqual(initialState.todos);
   });
 
-  it('should select todos list sorted by closedDate', () => {
-    const sortedTodos: Todo[] = [
-      {id: 2, title: 'todo2Title', isClosed: false},
-      {id: 4, title: 'todo4Title', isClosed: false},
-      {id: 3, title: 'todo3Title', isClosed: true, closedDate: new Date('2022-06-01T10:00:00.000Z')},
-      {id: 1, title: 'todo1Title', isClosed: true, closedDate: new Date('2022-06-02T10:00:00.000Z')},
-    ];
-    const result = selectTodosSortedByClosedDate.projector(initialState);
-    expect(result).toEqual(sortedTodos);
+  it('should select todos list sorted by creationDate for open todos and closingDate for closed todos', () => {
+    const result = selectTodosSortedByClosingDate.projector(initialState);
+    expect(result).toEqual(mocks.SelectorsMocks.mockSortedTodos);
   });
 });

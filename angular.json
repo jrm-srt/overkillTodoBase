@@ -129,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "overkill-todo"
+  "defaultProject": "overkill-todo",
+  "cli": {
+    "analytics": false
+  }
 }

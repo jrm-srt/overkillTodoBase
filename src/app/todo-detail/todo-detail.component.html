@@ -18,7 +18,12 @@
     <!-- Buttons -->
     <mat-card-actions>
       <button mat-raised-button color="basic" type="button" [routerLink]="['/']">Back to list</button>
-      <button mat-raised-button color="primary" type="button" (click)="changeState(todo)" [routerLink]="['/']">{{todo.isClosed ? 'Reopen' : 'Close'}}</button>
+
+      <!-- V1: return to homepage -->
+      <!--<button mat-raised-button color="primary" type="button" (click)="changeState(todo)" [routerLink]="['/']">{{todo.isClosed ? 'Reopen' : 'Close'}}</button>-->
+
+      <!-- V2: stay on this page, but status is refreshed with NgRx -->
+      <button mat-raised-button color="primary" type="button" (click)="changeState(todo)">{{todo.isClosed ? 'Reopen' : 'Close'}}</button>
     </mat-card-actions>
   </mat-card>
 </div>
