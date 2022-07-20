@@ -1,56 +1,64 @@
-import {selectTodosSortedByClosingDate} from './../store/selectors';
+import {selectTodos, selectTodosSortedByClosingDate} from '../store/selectors';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {TodoListComponent} from './todo-list.component';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {State} from '../store/reducer';
-import {selectTodos} from '../store/selectors';
-import {MatCheckbox} from '@angular/material/checkbox';
-import {MatList, MatListItem} from '@angular/material/list';
-import {MatCard, MatCardContent, MatCardTitle} from '@angular/material/card';
-import {MatRippleModule} from '@angular/material/core';
+import {MatCheckbox, MatCheckboxModule} from '@angular/material/checkbox';
 import {FormsModule} from '@angular/forms';
-import {MockComponents, MockedComponent} from 'ng-mocks';
+import {MockedComponent} from 'ng-mocks';
 import {By} from '@angular/platform-browser';
 
 import * as mocks from '../../../tests/spec/mocks/todo-list-mocks';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {MatCheckboxHarness} from '@angular/material/checkbox/testing';
+import {changeTodoStateAction} from '../store/actions';
 
 describe('TodoListComponent', () => {
   let component: TodoListComponent;
   let fixture: ComponentFixture<TodoListComponent>;
   let store: MockStore<State>;
   let mockTodosSelector;
+  let mockSelectTodosSorted;
+  let loader: HarnessLoader;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
         TodoListComponent,
-        MockComponents(
-          MatCheckbox,
+        /*MockComponents(
           MatListItem,
           MatList,
           MatCardContent,
           MatCardTitle,
-          MatCard
-        ),
+          MatCard,
+          MatCheckbox
+        ),*/
       ],
       imports: [
-        MatRippleModule,
+        /*MatRippleModule,*/
+        MatCheckboxModule,
         FormsModule
       ],
       providers: [provideMockStore()],
     }).compileComponents();
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(TodoListComponent);
     component = fixture.componentInstance;
 
     mockTodosSelector = store.overrideSelector(selectTodos, mocks.TodoListMocks.mockSelectTodos);
-    mockTodosSelector = store.overrideSelector(selectTodosSortedByClosingDate, mocks.TodoListMocks.mockSelectTodosSortedByClosingDate);
+    mockSelectTodosSorted = store.overrideSelector(selectTodosSortedByClosingDate, mocks.TodoListMocks.mockSelectTodosSorted);
 
     fixture.detectChanges();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   it('should create', () => {
@@ -88,11 +96,45 @@ describe('TodoListComponent', () => {
   });
 
   it('should dispatch changeTodoStateAction when checking a Todo', async () => {
-    // TODO: to be implemented
+    const dispatchSpy = spyOn(store, 'dispatch').and.callThrough();
+    jasmine.clock().install();
+    jasmine.clock().mockDate(new Date('2022-06-01T10:01:02'));
+
+    const checkbox = await loader.getHarness(MatCheckboxHarness);
+
+    expect(await checkbox.isChecked()).toBe(false);
+    await checkbox.check();
+    expect(await checkbox.isChecked()).toBe(true);
+
+    const updatedTodo = {
+      id: 2,
+      title: 'todo 2',
+      creationDate: new Date('2022-06-01T10:01:02'),
+      isClosed: true,
+      closingDate: new Date('2022-06-01T10:01:02')
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(changeTodoStateAction({todo: updatedTodo}));
   });
 
   it('should dispatch changeTodoStateAction when unchecking a Todo', async () => {
-    // TODO: to be implemented
+    const dispatchSpy = spyOn(store, 'dispatch').and.callThrough();
+    jasmine.clock().install();
+    jasmine.clock().mockDate(new Date('2022-06-01T10:01:02'));
+
+    const checkbox = await loader.getHarness(MatCheckboxHarness.with({selector: '#cb-1'}));
+
+    expect(await checkbox.isChecked()).toBe(true);
+    await checkbox.uncheck();
+    expect(await checkbox.isChecked()).toBe(false);
+
+    const updatedTodo = {
+      id: 1,
+      title: 'todo 1',
+      creationDate: new Date('2022-06-04T10:01:02'),
+      isClosed: false,
+      closingDate: undefined
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(changeTodoStateAction({todo: updatedTodo}));
   });
 
   // TODO: check "todo 2" checkBox and assert that it is displayed at the bottom of the list?

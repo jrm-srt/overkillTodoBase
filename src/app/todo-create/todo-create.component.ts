@@ -9,22 +9,19 @@ import {createTodoAction} from '../store/actions';
   templateUrl: './todo-create.component.html',
   styleUrls: ['./todo-create.component.scss']
 })
-export class TodoCreateComponent implements OnInit {
+export class TodoCreateComponent {
 
-  createForm!: FormGroup;
-  title!: FormControl;
+  createForm: FormGroup = this.formBuilder.group({
+      title: this.formBuilder.control('', Validators.required),
+      description: this.formBuilder.control('')
+    }
+  );
 
   constructor(private store: Store, private formBuilder: FormBuilder) {
   }
 
-  ngOnInit(): void {
-    this.title = this.formBuilder.control('', [Validators.required]);
-
-    this.createForm = this.formBuilder.group({
-        title: this.title,
-        description: this.formBuilder.control('')
-      }
-    );
+  get title(): FormControl {
+    return this.createForm.get('title') as FormControl;
   }
 
   createTodo(): void {

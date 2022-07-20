@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 import {StoreModule} from '@ngrx/store';
 import {Effects} from './effects';
 import {provideMockActions} from '@ngrx/effects/testing';
@@ -15,10 +15,8 @@ import {
 } from './actions';
 
 import * as mocks from '../../../tests/spec/mocks/effects-mocks';
-import {ActivatedRoute, convertToParamMap, Router, RouterModule, RouterOutlet} from '@angular/router';
+import {Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
-import Spy = jasmine.Spy;
-import {MockBuilder, MockedComponentFixture, MockRender} from 'ng-mocks';
 
 describe('Effects', () => {
   let effects: Effects;
@@ -29,7 +27,6 @@ describe('Effects', () => {
     'TodoService',
     ['list', 'update', 'create', 'getById']
   );
-  /*let routerSpyOn: Spy;*/
   const routerSpy = jasmine.createSpyObj(
     'Router',
     ['navigate']
@@ -43,7 +40,6 @@ describe('Effects', () => {
       ],
       providers: [
         Effects,
-        // TODO: required or not?
         Router,
         provideMockActions(() => actions),
         {
@@ -59,7 +55,6 @@ describe('Effects', () => {
 
     effects = TestBed.inject(Effects);
     router = TestBed.inject(Router);
-    /*routerSpyOn = spyOn(router, 'navigate');*/
   });
 
   describe('loadTodosEffect$', () => {
@@ -184,9 +179,9 @@ describe('Effects', () => {
       });
 
       // TODO: I was forced to make router public in order to use it in tests...
-      expect(routerSpy).toHaveBeenCalled();
-      expect(routerSpy).toHaveBeenCalledWith(['/todos', mocks.EffectsMocks.mockedTodo.id]);
-      expect(effects.router.navigate).toHaveBeenCalled();
+      effects.createTodoSuccessEffect$.subscribe({
+        next: () => expect(routerSpy.navigate).toHaveBeenCalledWith(['/todos', mocks.EffectsMocks.mockedTodo.id])
+      });
     });
   });
 });

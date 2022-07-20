@@ -43,10 +43,6 @@ export class TodoDetailComponent implements OnInit {
     };
     console.log(`Change state for '${updatedTodo.title}' from  ${todo.isClosed} to  ${updatedTodo.isClosed}`);
     this.store.dispatch(changeTodoStateAction({todo: updatedTodo}));
-
-    // Reload current page in order to take into account new status
-    // TODO: voir comment mieux gérer l'ID lors de la création de Todo
-    this.store.dispatch(getTodoByIdAction({id: todo.id!}));
   }
 
 }

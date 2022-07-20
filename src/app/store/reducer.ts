@@ -43,7 +43,8 @@ export const todosReducer = createReducer(
 
       return ({
         ...state,
-        todos: updatedTodos
+        todos: updatedTodos,
+        selectedTodo: todo
       });
     }
   ),

@@ -48,7 +48,7 @@ describe('Reducer', () => {
         todos: [{id: 1, title: 'initial title', creationDate: new Date(), isClosed: false}],
         selectedTodo: undefined
       };
-      const newState: State = {todos: [updatedTodo], selectedTodo: undefined};
+      const newState: State = {todos: [updatedTodo], selectedTodo: updatedTodo};
 
       const action = changeTodoStateSuccessAction({
         todo: updatedTodo,

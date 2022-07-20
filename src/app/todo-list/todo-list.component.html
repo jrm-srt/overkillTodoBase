@@ -12,7 +12,8 @@
             <mat-checkbox
               [ngClass]="{'done': todo.isClosed}"
               [checked]="todo.isClosed"
-              (change)="changeTodoState(todo)">
+              (change)="changeTodoState(todo)"
+              id="cb-{{todo.id}}">
               {{ todo.title }}
             </mat-checkbox>
           </h4>
